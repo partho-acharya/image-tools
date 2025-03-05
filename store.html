@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Convert images between JPG, PNG, WEBP formats instantly with PixelMagic. High-quality conversion with privacy guarantee.">
+    <meta name="keywords" content="image converter, JPG to PNG, PNG to JPG, WEBP converter, online image conversion">
+    <title>Image Converter - PixelMagic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f5ff;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        .navbar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .cta-button {
+            background: white;
+            color: #6366f1;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        /* Converter Section */
+        .converter-section {
+            max-width: 800px;
+            margin: 4rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .converter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .drop-zone {
+            border: 2px dashed #6366f1;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-bottom: 1.5rem;
+        }
+
+        .drop-zone:hover {
+            background: #f0f5ff;
+            transform: translateY(-2px);
+        }
+
+        .preview-image {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 10px;
+            margin: 1rem 0;
+            display: none;
+        }
+
+        .options-container {
+            display: grid;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .format-select {
+            padding: 0.8rem;
+            border: 2px solid #e0e7ff;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .quality-slider {
+            width: 100%;
+            margin: 1rem 0;
+        }
+
+        .convert-btn {
+            background: #6366f1;
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: transform 0.3s;
+        }
+
+        .convert-btn:hover {
+            background: #4f46e5;
+            transform: translateY(-2px);
+        }
+
+        /* Loading Spinner */
+        .loader {
+            display: none;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #6366f1;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+            margin-top: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1rem 0;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .converter-section {
+                margin: 2rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">PixelMagic</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#" class="cta-button">Get Started</a>
+        </div>
+    </nav>
+
+    <main class="converter-section">
+        <div class="converter-header">
+            <h1>Image Converter</h1>
+            <p>Convert between JPG, PNG, and WEBP formats instantly</p>
+        </div>
+
+        <div class="drop-zone" id="dropZone">
+            <i class="fas fa-file-upload fa-3x" style="color: #6366f1;"></i>
+            <p>Drag & drop your image here or click to upload</p>
+            <input type="file" id="fileInput" accept="image/*" hidden>
+        </div>
+
+        <img src="#" alt="Preview" class="preview-image" id="preview">
+
+        <div class="options-container">
+            <select class="format-select" id="formatSelect">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPG</option>
+                <option value="webp">WEBP</option>
+            </select>
+
+            <div id="qualityContainer" style="display: none;">
+                <label>Quality: <span id="qualityValue">90</span>%</label>
+                <input type="range" class="quality-slider" id="qualitySlider" min="1" max="100" value="90">
+            </div>
+
+            <button class="convert-btn" id="convertBtn">Convert Now</button>
+            <div class="loader" id="loader"></div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="footer-links">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Contact</a>
+        </div>
+        <p>&copy; 2024 PixelMagic. All rights reserved.</p>
+    </footer>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const preview = document.getElementById('preview');
+        const formatSelect = document.getElementById('formatSelect');
+        const qualitySlider = document.getElementById('qualitySlider');
+        const qualityValue = document.getElementById('qualityValue');
+        const convertBtn = document.getElementById('convertBtn');
+        const loader = document.getElementById('loader');
+        const qualityContainer = document.getElementById('qualityContainer');
+
+        let currentFile = null;
+
+        // Drag & Drop Handlers
+        dropZone.addEventListener('click', () => fileInput.click());
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#4f46e5';
+        });
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.borderColor = '#6366f1';
+        });
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.style.borderColor = '#6366f1';
+            const file = e.dataTransfer.files[0];
+            handleFile(file);
+        });
+
+        // File Input Handler
+        fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            handleFile(file);
+        });
+
+        // Format Select Handler
+        formatSelect.addEventListener('change', () => {
+            qualityContainer.style.display = formatSelect.value === 'jpeg' ? 'block' : 'none';
+        });
+
+        // Quality Slider Handler
+        qualitySlider.addEventListener('input', (e) => {
+            qualityValue.textContent = e.target.value;
+        });
+
+        // Conversion Handler
+        convertBtn.addEventListener('click', async () => {
+            if (!currentFile) {
+                alert('Please select an image first!');
+                return;
+            }
+
+            try {
+                loader.style.display = 'block';
+                convertBtn.disabled = true;
+
+                const img = await createImageBitmap(currentFile);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const format = formatSelect.value;
+                const quality = format === 'jpeg' ? qualitySlider.value / 100 : 1;
+
+                canvas.toBlob((blob) => {
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = `converted.${format}`;
+                    a.click();
+                    URL.revokeObjectURL(url);
+                    
+                    loader.style.display = 'none';
+                    convertBtn.disabled = false;
+                }, `image/${format}`, quality);
+            } catch (error) {
+                alert('Error converting image: ' + error.message);
+                loader.style.display = 'none';
+                convertBtn.disabled = false;
+            }
+        });
+
+        function handleFile(file) {
+            if (!file.type.startsWith('image/')) {
+                alert('Please select an image file!');
+                return;
+            }
+
+            currentFile = file;
+            preview.style.display = 'block';
+            preview.src = URL.createObjectURL(file);
+        }
+    </script>
+</body>
+</html>

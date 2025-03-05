@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Edit and adjust your images with the PixelMagic Image Editor. Crop, resize, rotate, and more!">
+    <meta name="keywords" content="image editor, crop image, resize image, rotate image, adjust image">
+    <meta name="author" content="PixelMagic">
+    <title>Image Editor - PixelMagic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Include your main styles here or use the same from index.html */
+        body {
+            background: #f0f5ff;
+        }
+        .navbar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .cta-button {
+            background: white;
+            color: #6366f1;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+        .footer {
+            background-color: #6366f1;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <a href="#" class="logo">PixelMagic</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="image-converter.html">Image Converter</a>
+            <a href="image-editor.html">Image Editor</a>
+            <a href="image-compressor.html">Image Compressor</a>
+            <a href="background-remover.html">Background Remover</a>
+            <a href="color-picker.html">Color Picker</a>
+            <a href="watermark-adder.html">Watermark Adder</a>
+            <a href="#" class="cta-button">Get Started</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Image Editor</h1>
+        <p>Crop, resize, rotate, and adjust your images</p>
+        <div>
+            <form>
+                <input type="file" name="image" accept="image/*">
+                <button type="submit" class="cta-button">Edit Image</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p>&copy; 2025 PixelMagic | All rights reserved</p>
+        <div>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+    </footer>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const fileInput = document.querySelector('input[name="image"]');
+            const file = fileInput.files[0];
+        
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = function() {
+                        const canvas = document.createElement('canvas');
+                        const ctx = canvas.getContext('2d');
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+                        ctx.drawImage(img, 0, 0);
+                        
+                        // Example of adding cropping functionality
+                        const cropButton = document.querySelector('.crop-button');
+                        cropButton.addEventListener('click', function() {
+                            // Implement crop logic here
+                        });
+        
+                        // Example of adding rotation functionality
+                        const rotateButton = document.querySelector('.rotate-button');
+                        rotateButton.addEventListener('click', function() {
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.save();
+                            ctx.translate(canvas.width / 2, canvas.height / 2);
+                            ctx.rotate((Math.PI / 180) * 90); // rotate 90 degrees
+                            ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                            ctx.restore();
+                        });
+                        
+                        // Display image on the page
+                        document.body.appendChild(canvas);
+                    };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+        </script>
+</body>
+</html>
+

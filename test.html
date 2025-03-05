@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+<head>
+    <!-- Existing meta tags and styles -->
+    <style>
+        /* Added styles for new elements */
+        .ad-section {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .ad-section p {
+            color: #666;
+            margin-bottom: 1rem;
+        }
+
+        .ad-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        #downloadBtn {
+            display: none;
+            background: #10b981;
+            margin-top: 1rem;
+        }
+
+        .button-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <!-- Existing navbar -->
+    </nav>
+
+    <main class="converter-section">
+        <div class="converter-header">
+            <h1>Image Converter</h1>
+            <p>Convert between JPG, PNG, WEBP, GIF, and BMP formats</p>
+        </div>
+
+        <!-- Existing drop zone and preview -->
+
+        <div class="options-container">
+            <select class="format-select" id="formatSelect">
+                <option value="png">PNG</option>
+                <option value="jpeg">JPG</option>
+                <option value="webp">WEBP</option>
+                <option value="gif">GIF</option>
+                <option value="bmp">BMP</option>
+            </select>
+
+            <!-- Existing quality slider -->
+
+            <div class="button-group">
+                <button class="convert-btn" id="convertBtn">Convert Now</button>
+                <button class="convert-btn" id="downloadBtn">Download Image</button>
+            </div>
+            <div class="loader" id="loader"></div>
+        </div>
+    </main>
+
+    <div class="ad-section">
+        <p>Advertisement</p>
+        <div class="ad-content">
+            <!-- Replace with actual ad code -->
+            <img src="https://via.placeholder.com/728x90" alt="Ad placeholder">
+        </div>
+    </div>
+
+    <footer class="footer">
+        <!-- Existing footer -->
+    </footer>
+
+    <script>
+        // Modified JavaScript
+        let convertedBlobUrl = null;
+
+        // Existing event listeners...
+
+        convertBtn.addEventListener('click', async () => {
+            if (!currentFile) {
+                alert('Please select an image first!');
+                return;
+            }
+
+            try {
+                loader.style.display = 'block';
+                convertBtn.disabled = true;
+
+                const img = await createImageBitmap(currentFile);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = img.width;
+                canvas.height = img.height;
+                ctx.drawImage(img, 0, 0);
+
+                const format = formatSelect.value;
+                const quality = format === 'jpeg' ? qualitySlider.value / 100 : 1;
+
+                canvas.toBlob((blob) => {
+                    convertedBlobUrl = URL.createObjectURL(blob);
+                    downloadBtn.style.display = 'block';
+                    convertBtn.disabled = false;
+                    loader.style.display = 'none';
+                    
+                    // Trigger automatic download
+                    const a = document.createElement('a');
+                    a.href = convertedBlobUrl;
+                    a.download = `converted.${format}`;
+                    a.click();
+                }, `image/${format}`, quality);
+            } catch (error) {
+                alert('Error converting image: ' + error.message);
+                loader.style.display = 'none';
+                convertBtn.disabled = false;
+            }
+        });
+
+        // Download button handler
+        downloadBtn.addEventListener('click', () => {
+            if (!convertedBlobUrl) return;
+            const a = document.createElement('a');
+            a.href = convertedBlobUrl;
+            a.download = `converted.${formatSelect.value}`;
+            a.click();
+        });
+
+        // Reset download button when new file is selected
+        fileInput.addEventListener('change', () => {
+            if (convertedBlobUrl) {
+                URL.revokeObjectURL(convertedBlobUrl);
+                convertedBlobUrl = null;
+            }
+            downloadBtn.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

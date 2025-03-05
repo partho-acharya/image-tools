@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="PixelMagic provides powerful online image editing tools such as image converter, compressor, editor, background remover, and more.">
+    <meta name="keywords" content="image editing, image converter, image compressor, background remover, online tools, photo editor, image tools, image resize, image crop, image watermark">
+    <meta name="author" content="PixelMagic">
+    <title>PixelMagic - Image Tools Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f0f5ff;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .logo {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: rgba(255, 255, 255, 0.9);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: white;
+        }
+
+        .cta-button {
+            background: white;
+            color: #6366f1;
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .tool-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .tool-icon {
+            font-size: 2.5rem;
+            color: #6366f1;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .shape {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(10px, 10px); }
+            50% { transform: translate(-10px, 20px); }
+            75% { transform: translate(-20px, -10px); }
+        }
+
+        /* Footer Styles */
+        .footer {
+            background-color: #6366f1;
+            color: white;
+            padding: 2rem 2rem;
+            text-align: center;
+        }
+
+        .footer a {
+            color: white;
+            text-decoration: none;
+            margin: 0 1rem;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Ad Section */
+        .ad-section {
+            background-color: #f0f5ff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .ad-banner {
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .ad-banner img {
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+ 
+    <nav class="navbar">
+        <a href="#" class="logo">PixelMagic</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="image-converter.html">Image Converter</a>
+            <a href="image-editor.html">Image Editor</a>
+            <a href="image-compressor.html">Image Compressor</a>
+            <a href="background-remover.html">Background Remover</a>
+            <a href="color-picker.html">Color Picker</a>
+            <a href="watermark-adder.html">Watermark Adder</a>
+            <a href="#" class="cta-button">Get Started</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <h1>Transform Your Images with Ease</h1>
+        <p>Powerful online tools for all your image editing needs</p>
+        <a href="#tools" class="cta-button" style="margin-top: 2rem;">Explore Tools</a>
+    </section>
+
+    <div class="tools-grid" id="tools">
+        <!-- Image Tools Options -->
+        <a href="image-converter.html">
+            <div class="tool-card">
+                <i class="fas fa-file-image tool-icon"></i>
+                <h3>Image Converter</h3>
+                <p>Convert between JPG, PNG, WEBP, and more formats</p>
+            </div>
+        </a>
+    
+        <a href="image-editor.html">
+            <div class="tool-card">
+                <i class="fas fa-crop tool-icon"></i>
+                <h3>Image Editor</h3>
+                <p>Crop, resize, rotate, and adjust your images</p>
+            </div>
+        </a>
+    
+        <a href="image-compressor.html">
+            <div class="tool-card">
+                <i class="fas fa-compress-alt tool-icon"></i>
+                <h3>Image Compressor</h3>
+                <p>Reduce image size without quality loss</p>
+            </div>
+        </a>
+    
+        <a href="background-remover.html">
+            <div class="tool-card">
+                <i class="fas fa-magic tool-icon"></i>
+                <h3>Background Remover</h3>
+                <p>Automatically remove image backgrounds</p>
+            </div>
+        </a>
+    
+        <a href="color-picker.html">
+            <div class="tool-card">
+                <i class="fas fa-palette tool-icon"></i>
+                <h3>Color Picker</h3>
+                <p>Extract colors from any image</p>
+            </div>
+        </a>
+    
+        <a href="watermark-adder.html">
+            <div class="tool-card">
+                <i class="fas fa-sticky-note tool-icon"></i>
+                <h3>Watermark Adder</h3>
+                <p>Add custom watermarks to your images</p>
+            </div>
+        </a>
+    </div>
+    <div class="tools-grid" id="tools">
+        <!-- Image Tools Options -->
+        <a href="image-converter.html">
+            <div class="tool-card">
+                <i class="fas fa-file-image tool-icon"></i>
+                <h3>Image Converter</h3>
+                <p>Convert between JPG, PNG, WEBP, and more formats</p>
+            </div>
+        </a>
+    
+        <a href="image-editor.html">
+            <div class="tool-card">
+                <i class="fas fa-crop tool-icon"></i>
+                <h3>Image Editor</h3>
+                <p>Crop, resize, rotate, and adjust your images</p>
+            </div>
+        </a>
+    
+        <a href="image-compressor.html">
+            <div class="tool-card">
+                <i class="fas fa-compress-alt tool-icon"></i>
+                <h3>Image Compressor</h3>
+                <p>Reduce image size without quality loss</p>
+            </div>
+        </a>
+    
+        <a href="background-remover.html">
+            <div class="tool-card">
+                <i class="fas fa-magic tool-icon"></i>
+                <h3>Background Remover</h3>
+                <p>Automatically remove image backgrounds</p>
+            </div>
+        </a>
+    
+        <a href="color-picker.html">
+            <div class="tool-card">
+                <i class="fas fa-palette tool-icon"></i>
+                <h3>Color Picker</h3>
+                <p>Extract colors from any image</p>
+            </div>
+        </a>
+    
+        <a href="watermark-adder.html">
+            <div class="tool-card">
+                <i class="fas fa-sticky-note tool-icon"></i>
+                <h3>Watermark Adder</h3>
+                <p>Add custom watermarks to your images</p>
+            </div>
+        </a>
+    </div>
+        
+
+    <!-- Ad Section -->
+    <div class="ad-section">
+        <h2>Sponsored Ad</h2>
+        <div class="ad-banner">
+            <!-- Replace with your actual ad code, such as AdSense -->
+            <img src="https://via.placeholder.com/1000x250?text=Ad+Banner" alt="Ad Banner">
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <p>&copy; 2025 PixelMagic | All rights reserved</p>
+        <div>
+            <a href="https://facebook.com" target="_blank"><i class="fab fa-facebook"></i> Facebook</a>
+            <a href="https://twitter.com" target="_blank"><i class="fab fa-twitter"></i> Twitter</a>
+            <a href="https://instagram.com" target="_blank"><i class="fab fa-instagram"></i> Instagram</a>
+            <a href="https://linkedin.com" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+    </footer>
+</body>
+</html>
